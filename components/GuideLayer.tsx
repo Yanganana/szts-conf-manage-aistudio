@@ -13,31 +13,35 @@ const GuideLayer: React.FC<GuideLayerProps> = ({ onContextSelect }) => {
   const renderTypeSelection = () => (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto px-4">
       <TypeCard 
-        icon={<Users size={48} />} 
+        icon={<Users size={32} />} 
         title="团队 (Team)" 
         desc="查看团队成员的所有相关任务"
-        color="bg-blue-500"
+        color="text-blue-600 bg-blue-50"
+        borderColor="hover:border-blue-200"
         onClick={() => setSelectedType('team')}
       />
       <TypeCard 
-        icon={<FolderKanban size={48} />} 
+        icon={<FolderKanban size={32} />} 
         title="项目 (Project)" 
         desc="以项目为主视角查看任务进度"
-        color="bg-indigo-500"
+        color="text-indigo-600 bg-indigo-50"
+        borderColor="hover:border-indigo-200"
         onClick={() => setSelectedType('project')}
       />
       <TypeCard 
-        icon={<CheckSquare size={48} />} 
+        icon={<CheckSquare size={32} />} 
         title="任务 (Task)" 
         desc="聚焦单条任务及其子任务"
-        color="bg-emerald-500"
+        color="text-emerald-600 bg-emerald-50"
+        borderColor="hover:border-emerald-200"
         onClick={() => setSelectedType('task')}
       />
       <TypeCard 
-        icon={<TagIcon size={48} />} 
+        icon={<TagIcon size={32} />} 
         title="标签 (Tag)" 
         desc="筛选具有特定标签的所有任务"
-        color="bg-amber-500"
+        color="text-amber-600 bg-amber-50"
+        borderColor="hover:border-amber-200"
         onClick={() => setSelectedType('tag')}
       />
     </div>
@@ -64,16 +68,16 @@ const GuideLayer: React.FC<GuideLayerProps> = ({ onContextSelect }) => {
         title = '选择一条任务';
         break;
       case 'tag':
-        items = MOCK_TAGS.map(t => ({ id: t.id, name: t.name, desc: 'Label' }));
+        items = MOCK_TAGS.map(t => ({ id: t.id, name: t.name, desc: '标签' }));
         title = '选择一个标签';
         break;
     }
 
     return (
-      <div className="max-w-2xl mx-auto w-full bg-white rounded-2xl shadow-xl overflow-hidden animate-fade-in-up">
-        <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50">
+      <div className="max-w-2xl mx-auto w-full bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden animate-fade-in-up">
+        <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-gray-50/50">
           <h3 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
-            <span className="text-indigo-600 cursor-pointer hover:underline" onClick={() => setSelectedType(null)}>
+            <span className="text-indigo-600 cursor-pointer hover:underline hover:text-indigo-700 transition-colors" onClick={() => setSelectedType(null)}>
               {getTypeName(selectedType)}
             </span>
             <ChevronRight size={16} className="text-gray-400" />
@@ -81,27 +85,27 @@ const GuideLayer: React.FC<GuideLayerProps> = ({ onContextSelect }) => {
           </h3>
           <button 
             onClick={() => setSelectedType(null)}
-            className="text-sm text-gray-500 hover:text-gray-800 px-3 py-1 rounded hover:bg-gray-200 transition-colors"
+            className="text-sm font-medium text-gray-600 hover:text-gray-900 px-4 py-1.5 rounded-lg border border-gray-200 hover:bg-white hover:shadow-sm transition-all bg-transparent"
           >
             返回
           </button>
         </div>
-        <div className="max-h-[60vh] overflow-y-auto p-2">
+        <div className="max-h-[60vh] overflow-y-auto p-2 bg-white">
           {items.map(item => (
             <button
               key={item.id}
               onClick={() => onContextSelect({ type: selectedType, id: item.id, name: item.name, description: item.desc })}
-              className="w-full text-left p-4 hover:bg-indigo-50 rounded-xl transition-all duration-200 flex items-center justify-between group border-b border-gray-50 last:border-0"
+              className="w-full text-left p-4 hover:bg-gray-50 rounded-xl transition-all duration-200 flex items-center justify-between group border-b border-gray-50 last:border-0"
             >
               <div>
-                <div className="font-medium text-gray-900 group-hover:text-indigo-700">{item.name}</div>
+                <div className="font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">{item.name}</div>
                 {item.desc && <div className="text-sm text-gray-500 mt-1">{item.desc}</div>}
               </div>
-              <ArrowRight className="text-gray-300 group-hover:text-indigo-500 opacity-0 group-hover:opacity-100 transition-all" size={20} />
+              <ArrowRight className="text-gray-300 group-hover:text-indigo-500 opacity-0 group-hover:opacity-100 transition-all transform group-hover:translate-x-1" size={20} />
             </button>
           ))}
           {items.length === 0 && (
-            <div className="p-8 text-center text-gray-500">暂无数据</div>
+            <div className="p-12 text-center text-gray-500">暂无数据</div>
           )}
         </div>
       </div>
@@ -109,13 +113,13 @@ const GuideLayer: React.FC<GuideLayerProps> = ({ onContextSelect }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900 bg-opacity-95 backdrop-blur-sm flex flex-col items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 bg-gray-50 flex flex-col items-center justify-center p-4">
       <div className="mb-12 text-center animate-fade-in">
-        <div className="inline-flex items-center justify-center p-3 bg-white/10 rounded-full mb-4 ring-1 ring-white/20">
-          <LayoutGrid className="text-white" size={32} />
+        <div className="inline-flex items-center justify-center p-4 bg-white rounded-2xl mb-6 shadow-sm border border-gray-100">
+          <LayoutGrid className="text-indigo-600" size={32} />
         </div>
-        <h1 className="text-4xl font-bold text-white mb-4 tracking-tight">工作台导航</h1>
-        <p className="text-slate-300 text-lg max-w-xl mx-auto">
+        <h1 className="text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">工作台导航</h1>
+        <p className="text-gray-600 text-lg max-w-xl mx-auto leading-relaxed">
           请选择您的工作上下文以开始。我们将根据您的选择过滤相关信息。
         </p>
       </div>
@@ -127,16 +131,25 @@ const GuideLayer: React.FC<GuideLayerProps> = ({ onContextSelect }) => {
   );
 };
 
-const TypeCard: React.FC<{ icon: React.ReactNode; title: string; desc: string; color: string; onClick: () => void }> = ({ icon, title, desc, color, onClick }) => (
+interface TypeCardProps {
+  icon: React.ReactNode;
+  title: string;
+  desc: string;
+  color: string;
+  borderColor: string;
+  onClick: () => void;
+}
+
+const TypeCard: React.FC<TypeCardProps> = ({ icon, title, desc, color, borderColor, onClick }) => (
   <button 
     onClick={onClick}
-    className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/30 rounded-2xl p-8 text-left transition-all duration-300 hover:transform hover:-translate-y-1 group w-full h-full flex flex-col"
+    className={`bg-white border border-gray-200 ${borderColor} rounded-2xl p-8 text-left transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-lg group w-full h-full flex flex-col shadow-sm`}
   >
-    <div className={`w-16 h-16 rounded-2xl ${color} flex items-center justify-center text-white mb-6 shadow-lg group-hover:shadow-${color}/50`}>
+    <div className={`w-14 h-14 rounded-xl ${color} flex items-center justify-center mb-6`}>
       {icon}
     </div>
-    <h3 className="text-2xl font-bold text-white mb-2">{title}</h3>
-    <p className="text-slate-400 group-hover:text-slate-200 transition-colors">{desc}</p>
+    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-gray-800">{title}</h3>
+    <p className="text-gray-500 leading-relaxed group-hover:text-gray-600 transition-colors">{desc}</p>
   </button>
 );
 

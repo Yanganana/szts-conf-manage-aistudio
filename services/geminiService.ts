@@ -6,20 +6,20 @@ const ai = new GoogleGenAI({ apiKey });
 
 export const generateTaskSummary = async (tasks: Task[], contextName: string): Promise<string> => {
   if (!apiKey) {
-    return "API Key is missing. Unable to generate AI summary.";
+    return "API Key 缺失。无法生成 AI 摘要。";
   }
 
   try {
     const taskData = tasks.map(t => `- [${t.priority}] ${t.title} (${t.status})`).join('\n');
     
     const prompt = `
-      Act as a senior project manager. Analyze the following list of tasks for the context: "${contextName}".
+      你是一位资深的项目经理。请根据以下任务列表分析 "${contextName}" 的当前状态。
       
-      Tasks:
+      任务列表:
       ${taskData}
       
-      Provide a concise 3-sentence summary of the current state, highlighting any critical blockers or risks based on priority and status.
-      Do not use markdown formatting like bolding, just plain text or simple bullets.
+      请用中文提供一段简明扼要的 3 句话总结，基于任务的优先级和状态，重点指出任何严重的阻塞点或风险。
+      不要使用 Markdown 格式（如加粗），仅使用纯文本。
     `;
 
     const response = await ai.models.generateContent({
@@ -27,9 +27,9 @@ export const generateTaskSummary = async (tasks: Task[], contextName: string): P
       contents: prompt,
     });
 
-    return response.text || "No summary generated.";
+    return response.text || "未生成摘要。";
   } catch (error) {
     console.error("Gemini API Error:", error);
-    return "Unable to generate summary at this time due to a network or configuration error.";
+    return "由于网络或配置错误，暂时无法生成摘要。";
   }
 };
