@@ -1,0 +1,5 @@
+{
+  "name": "项目管理工作台",
+  "description": "A high-performance project management workbench with a context-driven guide layer. Features specific views for Teams, Projects, Tasks, and Tags, integrated with Gemini AI for intelligent insights.",
+  "requestFramePermissions": []
+}
